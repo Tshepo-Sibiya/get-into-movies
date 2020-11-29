@@ -10,7 +10,7 @@ export interface MovieModel {
   Production: string;
   Writer: string;
   BoxOffice: string;
-  Response: boolean;
+  Response: string;
 }
 
 

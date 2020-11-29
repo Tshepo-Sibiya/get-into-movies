@@ -16,10 +16,24 @@ export class MoviesService {
     headers: new HttpHeaders({})
   };
 
-  searchMovie(title: string,): Observable<MovieModel> {
+  searchMovie(title: string, searchBy, year: string, plot: string): Observable<MovieModel> {
+    let _searchBy: string;
+    switch (searchBy) {
+      case 'title':
+        _searchBy = `t=${title}`;
+        break;
+      case 'IMDb ID':
+        _searchBy = `i=${title}`;
+        break;
+
+    };
+    if (year != '')
+      _searchBy = _searchBy + `&y=${year}`;
+    if (plot != '')
+      _searchBy = _searchBy + `&plot=${plot}`;
     return this.http
       .post<MovieModel>(
-        environment.moviesBaseUrl + `${title}`,
+        environment.moviesBaseUrl + _searchBy,
         null
       )
       .pipe(

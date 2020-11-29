@@ -10,15 +10,65 @@
                 <div class="form-group row">
                   <div class="col-md-12">
                     <input
+                      *ngIf="movieForm.value.searchBy == 'title'"
                       type="text"
                       id="title"
                       formControlName="title"
                       class="form-control"
                       name="title"
                       autofocusformControlName="title"
-                      placeholder="Movie title"
+                      placeholder="Search by Movie title"
+                    />
+                    <input
+                      *ngIf="movieForm.value.searchBy == 'IMDb ID'"
+                      type="text"
+                      id="IMDb ID"
+                      formControlName="title"
+                      class="form-control"
+                      name="IMDb ID"
+                      autofocusformControlName="title"
+                      placeholder="Search by IMDb ID"
                     />
                     <br />
+                    <input
+                      type="text"
+                      id="year"
+                      formControlName="year"
+                      class="form-control"
+                      name="year"
+                      autofocusformControlName="year"
+                      placeholder="Year"
+                    />
+                    <br />
+                    <select formControlName="plot" class="form-control">
+                      <option value="" disabled>Select plot</option>
+                      <option formControlName="plot" value="Short">
+                        Short
+                      </option>
+                      <option formControlName="plot" value="full">Full</option>
+                    </select>
+
+                    <br />
+                    <label>
+                      <input
+                        type="radio"
+                        value="title"
+                        formControlName="searchBy"
+                      />&nbsp;
+                      <span>Title</span>
+                    </label>
+                    &nbsp;
+                    <label>
+                      <input
+                        type="radio"
+                        value="IMDb ID"
+                        formControlName="searchBy"
+                      />&nbsp;
+                      <span>IMDb ID</span>
+                    </label>
+                    &nbsp;
+
+                    <br /><br />
                     <button type="submit" class="btn btn-primary">
                       <span>Search</span>
                     </button>
@@ -35,7 +85,7 @@
                       >
                     </div>
                     <div
-                      *ngIf="movieModel && loaded"
+                      *ngIf="movieModel && loaded && dataReturned != 'False'"
                       style="background-color: azure; padding: 10px"
                     >
                       <h4 class="text-center">Movie details</h4>
@@ -52,9 +102,17 @@
                         <li>Country: {{ movieModel.Country }}</li>
                       </ul>
                     </div>
-                    <p *ngIf="dataReturned == false && loaded">
-                      Oops... Movie not found! Please search again
-                    </p>
+                    <div
+                      class="text-center"
+                      *ngIf="dataReturned == 'False' && loaded == true"
+                    >
+                      <img
+                        height="220"
+                        width="230"
+                        src="../assets/no-result-found.png"
+                      />
+                      <p>Oops... Movie not found! Please search again</p>
+                    </div>
                   </div>
                 </div>
               </div>

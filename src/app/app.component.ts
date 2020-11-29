@@ -19,29 +19,34 @@ export class AppComponent implements OnInit {
   searchProgressMessage: string;
   loading: boolean = false;
   loaded: boolean = false;
-  dataReturned = false;
+  dataReturned = 'False';
+  searchBy = 'title';
 
   constructor(
     private fb: FormBuilder,
     private movieService: MoviesService,
     updates: SwUpdate
   ) {
-    updates.activateUpdate().then(()=> document.location.reload());
+    updates.activateUpdate().then(() => document.location.reload());
   };
 
   onSearch() {
+    console.log(this.movieForm.value.searchBy);
     this.loading = true;
     this.loaded = false;
-    const title = this.movieForm.value.title;
+    let title = this.movieForm.value.title;
+    let year = this.movieForm.value.year;
+    let plot = this.movieForm.value.plot;
+    this.searchBy = this.movieForm.value.searchBy;
 
-    this.movieService.searchMovie(title).subscribe(
+    this.movieService.searchMovie(title, this.searchBy, year, plot).subscribe(
       (data) => {
         this.movieModel = data;
         this.loading = false;
         this.loaded = true;
-        console.log(data);
+
         this.dataReturned = data.Response;
-        console.log(this.dataReturned);
+
       },
       error => {
         this.hasError = true;
@@ -56,6 +61,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.movieForm = this.fb.group({
       title: [''],
+      searchBy: ['title'],
+      year: [''],
+      plot: ['']
     });
   }
 
