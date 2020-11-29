@@ -11,6 +11,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { MoviesService } from './core/services/movies.service';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 
 
@@ -28,7 +30,9 @@ import { MoviesService } from './core/services/movies.service';
     FormsModule,
     ReactiveFormsModule,
 
-    HttpClientModule
+    HttpClientModule,
+
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [MoviesService],
   bootstrap: [AppComponent]

@@ -19,7 +19,7 @@ export class MoviesService {
   searchMovie(title: string,): Observable<MovieModel> {
     return this.http
       .post<MovieModel>(
-        environment.authUrl + `${title}`,
+        environment.moviesBaseUrl + `${title}`,
         null
       )
       .pipe(

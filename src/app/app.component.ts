@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MovieModel } from './core/models/movie.model';
 import { MoviesService } from './core/services/movies.service';
 
+import { SwUpdate } from '@angular/service-worker';
+
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -21,18 +23,19 @@ export class AppComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private movieService: MoviesService
+    private movieService: MoviesService,
+    updates: SwUpdate
   ) {
-
+    updates.activateUpdate().then(()=> document.location.reload());
   };
 
   onSearch() {
     this.loading = true;
+    this.loaded = false;
     const title = this.movieForm.value.title;
 
     this.movieService.searchMovie(title).subscribe(
       (data) => {
-        this.searchProgressMessage = 'Login';
         this.movieModel = data;
         this.loading = false;
         this.loaded = true;
